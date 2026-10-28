@@ -1,47 +1,50 @@
-#!/usr/bin/env sh
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
-#
-# Copyright 2015 the original author or authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+android {
+    namespace = "com.example.simpletvlauncher"
+    compileSdk = 34
 
-APP_BASE_NAME=`basename "$0"`
+    defaultConfig {
+        applicationId = "com.example.simpletvlauncher"
+        minSdk = 28
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
 
-APP_HOME=$(cd "$(dirname "$0")" && pwd)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 
-CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 
-if [ -n "$CLASSPATH" ] && [ -f "$CLASSPATH" ]; then
-  :
-else
-  echo "Gradle wrapper JAR not found. Please run Gradle wrapper generation first." >&2
-  exit 1
-fi
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
-# Determine the Java command to use to start the JVM.
-if [ -n "$JAVA_HOME" ] ; then
-    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
-        JAVACMD="$JAVA_HOME/jre/sh/java"
-    else
-        JAVACMD="$JAVA_HOME/bin/java"
-    fi
-    if [ ! -x "$JAVACMD" ] ; then
-        echo "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME" >&2
-        exit 1
-    fi
-else
-    JAVACMD=java
-fi
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 
-exec "$JAVACMD" -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+dependencies {
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("com.google.android.material:material:1.12.0")
+}
